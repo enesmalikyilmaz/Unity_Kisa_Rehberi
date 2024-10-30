@@ -1,3 +1,3 @@
-# Unity_Kisa_Rehberi_2
-Görselleriyle açıklamalı Unity Rehberinin 2. kısmının kodları
+# Unity_Kisa_Rehberi
+Görselleriyle açıklamalı Unity Rehberinin kodları
  
