@@ -5,12 +5,13 @@ using UnityEngine;
 public class Laser_sc : MonoBehaviour
 {
     public float speed = 10f;
+        [SerializeField]
 
-    private Rigidbody rb;
+    public Rigidbody2D rb;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
         
         rb.velocity = Vector3.up * speed;
     }

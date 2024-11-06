@@ -12,6 +12,11 @@ public class Player_sc : MonoBehaviour
     public float speed = 1f;
     public float lives = 3.0f;
     SpawnManager_sc spawnManager_sc;
+        [SerializeField]
+
+    bool isTripleShotActive = false;
+    [SerializeField]
+    GameObject tripleShotPrefab;
 
     void Start(){
         spawnManager_sc = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager_sc>();
@@ -26,10 +31,18 @@ public class Player_sc : MonoBehaviour
         // Space tuşuna basılı tutulduğunda ve bekleme süresi dolduğunda ateş et
         if (Input.GetKey(KeyCode.Space) && Time.time > nextFire)
         {
+            if(!isTripleShotActive){
+            FireLaser();
+
+            }
+            else{
+                Instantiate(tripleShotPrefab, transform.position, Quaternion.identity);
+
+            }
             nextFire = Time.time + fireRate;
 
-            FireLaser();
         }
+
     }
     void FireLaser()
     {
