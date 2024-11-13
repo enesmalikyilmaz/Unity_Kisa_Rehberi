@@ -12,7 +12,6 @@ public class Player_sc : MonoBehaviour
     public float speed = 1f;
     public float lives = 3.0f;
     SpawnManager_sc spawnManager_sc;
-        [SerializeField]
 
     bool isTripleShotActive = false;
     [SerializeField]
@@ -32,11 +31,13 @@ public class Player_sc : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && Time.time > nextFire)
         {
             if(!isTripleShotActive){
-            FireLaser();
+
+            Instantiate(laserPrefab, transform.position, Quaternion.identity);
 
             }
             else{
-                Instantiate(tripleShotPrefab, transform.position, Quaternion.identity);
+                Vector3 tripleShotPosition = transform.position + new Vector3(-4.5f, 0, 0);
+                Instantiate(tripleShotPrefab, tripleShotPosition, Quaternion.identity);
 
             }
             nextFire = Time.time + fireRate;
@@ -44,10 +45,10 @@ public class Player_sc : MonoBehaviour
         }
 
     }
-    void FireLaser()
+    /*void FireLaser()
     {
         Instantiate(laserPrefab, transform.position, Quaternion.identity);
-    }
+    }*/
 
     void CalculateMovement(){
 
@@ -80,6 +81,25 @@ public class Player_sc : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    public void ActiveTripleShot(){
+
+        isTripleShotActive = true;
+
+        StartCoroutine(TripleShotBonusDisableRoutine());
+
+
+
+    }
+
+    IEnumerator TripleShotBonusDisableRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+
+        isTripleShotActive = false;
+
+    }    
+    
     /*void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Enemy"))
