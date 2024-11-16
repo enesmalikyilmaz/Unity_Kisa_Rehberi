@@ -6,9 +6,9 @@ public class SpawnManager_sc : MonoBehaviour
 {
     [SerializeField]
     GameObject enemyPrefab;
-        [SerializeField]
-
-    GameObject tripleShotBonusPrefab;
+    
+    [SerializeField]
+    GameObject[] bonusPrefabs;
 
     [SerializeField]
     GameObject enemyContainer;
@@ -30,7 +30,8 @@ public class SpawnManager_sc : MonoBehaviour
         while(stopSpawming == false)
         {
             Vector3 position = new Vector3(Random.Range(-9.4f,9.4f),7.4f,0);
-            Instantiate(tripleShotBonusPrefab,position,Quaternion.identity);
+            int randomBonus = Random.Range(0, bonusPrefabs.Length);
+            Instantiate(bonusPrefabs[randomBonus], position, Quaternion.identity);
             yield return new WaitForSeconds(7.0f);
         }
        

@@ -10,12 +10,19 @@ public class Player_sc : MonoBehaviour
     public float fireRate = 0.5f;  // Seri atışlar arası süre
     private float nextFire = 0f;   // Bir sonraki atış zamanı
     public float speed = 1f;
+    public float speedMultiplier = 2f;
+
     public float lives = 3.0f;
     SpawnManager_sc spawnManager_sc;
 
     bool isTripleShotActive = false;
+    bool isSpeedBonusActive = false;
+    bool isShieldBonusActive = false;
+
     [SerializeField]
     GameObject tripleShotPrefab;
+    [SerializeField]
+    GameObject shieldVisualizer ;
 
     void Start(){
         spawnManager_sc = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager_sc>();
@@ -45,6 +52,7 @@ public class Player_sc : MonoBehaviour
         }
 
     }
+    
     /*void FireLaser()
     {
         Instantiate(laserPrefab, transform.position, Quaternion.identity);
@@ -71,7 +79,14 @@ public class Player_sc : MonoBehaviour
         }
     }
 
-     public void Damage(){
+     public void Damage()
+     {
+        if(isShieldBonusActive == true)
+        {
+            isShieldBonusActive = false;
+            shieldVisualizer.SetActive(false);
+            return;
+        }
         lives --;
         if(lives < 1)
         {
@@ -88,8 +103,23 @@ public class Player_sc : MonoBehaviour
 
         StartCoroutine(TripleShotBonusDisableRoutine());
 
+    }
 
+    public void ActivateSpeedBonus(){
 
+        isSpeedBonusActive = true;
+
+        speed *= speedMultiplier;
+
+        StartCoroutine(SpeedBonusDisableRoutine());
+    }
+    public void ActivateShieldBonus(){
+
+        isShieldBonusActive = true;
+
+        shieldVisualizer.SetActive(true);
+
+        StartCoroutine(ShieldBonusDisableRoutine());
     }
 
     IEnumerator TripleShotBonusDisableRoutine()
@@ -97,6 +127,23 @@ public class Player_sc : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
 
         isTripleShotActive = false;
+
+    }    
+
+    IEnumerator SpeedBonusDisableRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        speed /= speedMultiplier;
+
+        isSpeedBonusActive = false;
+
+    }
+    IEnumerator ShieldBonusDisableRoutine()
+    {
+        yield return new WaitForSeconds(10.0f);
+
+        shieldVisualizer.SetActive(false);
+        isShieldBonusActive = false;
 
     }    
     
