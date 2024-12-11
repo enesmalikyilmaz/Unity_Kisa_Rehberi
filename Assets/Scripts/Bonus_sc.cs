@@ -40,7 +40,7 @@ public class Bonus_sc : MonoBehaviour
                         else if(bonusId == 2)
                         {
                             player_sc.ActivateShieldBonus();
-                        }// switch case'e çevir
+                        }   // switch case'e çevir
                     }
 
             Destroy(this.gameObject);

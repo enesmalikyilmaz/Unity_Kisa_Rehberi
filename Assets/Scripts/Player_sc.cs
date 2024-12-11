@@ -12,8 +12,9 @@ public class Player_sc : MonoBehaviour
     public float speed = 1f;
     public float speedMultiplier = 2f;
 
-    public float lives = 3.0f;
+    public int lives = 3;
     SpawnManager_sc spawnManager_sc;
+    UIManager_sc UIManager_sc;
 
     bool isTripleShotActive = false;
     bool isSpeedBonusActive = false;
@@ -23,12 +24,22 @@ public class Player_sc : MonoBehaviour
     GameObject tripleShotPrefab;
     [SerializeField]
     GameObject shieldVisualizer ;
+    
+    [SerializeField]
+
+    int score =0;
 
     void Start(){
         spawnManager_sc = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager_sc>();
-        if(spawnManager_sc== null){
+        UIManager_sc = GameObject.Find("Canvas").GetComponent<UIManager_sc>();
+        
+        if(spawnManager_sc == null){
             Debug.Log("Spawn_Manager oyun nesnesi bulunamadı");
-        }    }
+        }   
+        if(UIManager_sc == null){
+            Debug.Log("UIManager oyun nesnesi bulunamadı");
+        }  
+         }
 
     void Update()
     {
@@ -88,11 +99,20 @@ public class Player_sc : MonoBehaviour
             return;
         }
         lives --;
+        if(UIManager_sc != null)
+        {
+            UIManager_sc.UpdateLivesImg(lives);
+        }
+
         if(lives < 1)
         {
             if(spawnManager_sc != null){
-            spawnManager_sc.OnPlayerDeath();
+                spawnManager_sc.OnPlayerDeath();
             } 
+             if(UIManager_sc != null)
+            {
+                UIManager_sc.UpdateLivesImg(0);
+            }
             Destroy(this.gameObject);
         }
     }
@@ -145,8 +165,43 @@ public class Player_sc : MonoBehaviour
         shieldVisualizer.SetActive(false);
         isShieldBonusActive = false;
 
-    }    
+    }   
+
+    public void UpdateScore(int points)
+    {
+        score += points;
+
+        if(UIManager_sc != null)
+        {
+            UIManager_sc.UpdateScoreTMP(score);
+        }
+
+    } 
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Enemy"))
